@@ -10,6 +10,43 @@ server.get('/', function (request, response) {
 
     response.status(200).send('You have reached the server! ')
 })
+
+server.get('/users', (req, res) => {
+
+    try {
+
+        const array = ['Petko', 'Stanko', 'Mirko']
+
+        const name = req.query.name
+
+        if (name && array.includes(name)) {
+            res.status(200).send(name)
+        } else {
+            res.status(200).send(array)
+        }
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({error: 'An error occured'})
+    }
+})
+
+// Search users by id
+server.get('/users/:id', (request, response) => {
+    
+    const array = ['Petko', 'Stanko', 'Mirko']
+    
+    // The route param value is in the request object
+    const id = request.params.id
+
+    if (array[id]) {
+        response.status(200).send(array[id])
+    } else {
+        response.status(200).send('No data found')
+    }
+})
+
+
+
 // server.post('/')
 // server.delete('/')
 
