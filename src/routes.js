@@ -32,6 +32,41 @@ function routes (server, localStorage) {
             response.status(200).send('No data found')
         }
     })
+
+
+    server.post('/books/new', (req, res) => {
+        // receives data object for a new book
+        const data = req.body // {...}
+
+        console.log(data)
+
+        if (!data) {
+            res.status(400).json('Bad request, no data found.')
+        } else {
+            localStorage.push(data)
+            console.log(localStorage)
+            res.status(201).json('Succesfully created the entry.')
+        }
+    })
+
+    server.delete('/books/remove/:isbn', (req, res) => {
+        const found = localStorage.findIndex((element) => {
+            element.isbn === req.params.isbn
+        })
+
+        if (found) {
+            localStorage.splice(found, 1)
+            console.log(localStorage)
+            res.status(200).json('Succesfully deleted the entry.')
+        } else {
+            if (!req.params.isbn) {
+                res.status(400).json('Bad request, no data found.')
+            } else {
+                res.status(200).json('No such entry found.')
+            }
+            
+        }
+    })
 }
 
 

@@ -4,15 +4,21 @@ const routes = require('./src/routes');
 
 const cors = require('cors'); // npm install cors
 
+const bodyParser = require('body-parser'); // used to handle POST requests
+
 const server = express();
 
 const port = 3001;
 
-const localStorage = {};
+const localStorage = [];
 
-localStorage['1'] = 'Petko';
-localStorage['2'] = 'Mirko';
-localStorage['3'] = 'Stanko';
+localStorage.push({ isbn: '1', name: 'Crime and punishment' })
+localStorage.push({ isbn: '2', name: 'Witcher' })
+localStorage.push({ isbn: '3', name: 'The lord of the rings' })
+
+
+server.use(bodyParser.urlencoded({ extended: false }))
+server.use(bodyParser.json())
 
 server.use(cors());
 
