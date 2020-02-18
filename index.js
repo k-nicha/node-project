@@ -22,7 +22,7 @@ server.use(cors());
 routes(server);
 
 mongoose.connect(
-    'mongodb+srv://Koco:Nica@cluster0-jix4n.mongodb.net/test?retryWrites=true&w=majority',
+    'mongodb+srv://USERNAME:PASSWORD@cluster0-jix4n.mongodb.net/test?retryWrites=true&w=majority',
     {useNewUrlParser: true, useUnifiedTopology: true}
 );
 
