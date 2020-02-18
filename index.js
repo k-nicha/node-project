@@ -6,26 +6,52 @@ const cors = require('cors'); // npm install cors
 
 const bodyParser = require('body-parser'); // used to handle POST requests
 
+const mongoose = require('mongoose'); // mongodb framework
+
+const models = require('./src/models')
+
 const server = express();
 
 const port = 3001;
-
-const localStorage = [];
-
-localStorage.push({ isbn: '1', name: 'Crime and punishment' })
-localStorage.push({ isbn: '2', name: 'Witcher' })
-localStorage.push({ isbn: '3', name: 'The lord of the rings' })
-
 
 server.use(bodyParser.urlencoded({ extended: false }))
 server.use(bodyParser.json())
 
 server.use(cors());
 
-routes(server, localStorage);
+routes(server);
+
+mongoose.connect(
+    'mongodb+srv://Koco:Nica@cluster0-jix4n.mongodb.net/test?retryWrites=true&w=majority',
+    {useNewUrlParser: true, useUnifiedTopology: true}
+);
+
+const db = mongoose.connection;
+
+db.on('error', (error) => { console.log('Error connecting '+ error) })
+
+db.once('open', () => {
+    console.log('Successfully connected to the db.')
+    server.listen(port, function () {
+        console.log(`Server started on port ${port}, hello world!`);
+
+        // create a document from the book model
+        const firstBook = new models.Book({
+            isbn: 111,
+            title: 'Crime and punishment',
+            author: 'Dostoyevsky',
+            year: '1866'
+        })
+        // try to save the newly created book in the database
+        firstBook.save((err, book) => {
+            if (err) {
+                console.log('Data was not saved: '+ err)
+            } else {
+                console.log(book)
+            }
+        })
+    });
+})
 
 
-server.listen(port, function () {
-    console.log(`Server started on port ${port}, hello world!`);
-});
 
