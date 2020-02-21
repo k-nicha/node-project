@@ -8,6 +8,11 @@ const bodyParser = require('body-parser'); // used to handle POST requests
 
 const mongoose = require('mongoose'); // mongodb framework
 
+// .env fajlot e konfiguraciski, ne se pusha na git
+// i vo nego definirame globalni promenlivi 
+// soosetlivi informacii kako URL do baza/server, username password...
+// promenlivite definirani vo .env fajlot 
+//ni se dostapni vo process.env 
 require('dotenv').config();
 
 const server = express();

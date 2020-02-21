@@ -10,21 +10,32 @@
 <body>
     
     <div class="container">
+        <h2>Add a new book</h2>
         <input id="isbn" placeholder="ISBN" class="form-control" />
         <br />
-        <input id="name" placeholder="Name" class="form-control" />
+        <input id="title" placeholder="Title" class="form-control" />
         <br />
         <input id="author" placeholder="Author" class="form-control" />
         <br />
-
-        <button id="submit" onclick="deleteBook()" class="btn btn-danger"> Delete </button>
-
-        <button id="submit" onclick="createNewBook()" class="btn btn-success"> Submit </button>
+        <input id="year" placeholder="Year" class="form-control" />
+        <br />
+        <button id="submit" onclick="createNewBook()" class="btn btn-success">
+            Submit
+        </button>
+    </div>
+    <br />
+    <div class="container">
+        <h2>Delete book</h2>
+        <input id="isbnToDelete" placeholder="ISBN" class="form-control" />
+        <br />
+        <button id="delete" onclick="deleteBook()" class="btn btn-danger">
+            Delete
+        </button>
     </div>
 
     <script>
         function deleteBook () {
-            fetch(`http://localhost:3001/books/remove/${document.getElementById('isbn').value}`, {
+            fetch(`http://localhost:3001/remove-book/${document.getElementById('isbnToDelete').value}`, {
                 method: 'delete',
             })
             .then(response => response.json())
@@ -35,11 +46,12 @@
 
             const data = {
                 isbn: document.getElementById('isbn').value,
-                name: document.getElementById('name').value,
-                author: document.getElementById('author').value
+                title: document.getElementById('title').value,
+                author: document.getElementById('author').value,
+                year: document.getElementById('year').value
             }
 
-            fetch('http://localhost:3001/books/new', {
+            fetch('http://localhost:3001/add-book', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
