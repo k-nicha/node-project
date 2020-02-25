@@ -5,10 +5,9 @@ class Services {
         res.status(200).send('You have reached the server!')
     }
 
-    async getAllBooks (req, res) {
+    async getAllDocs (req, res) {
         try {
-            const books = await models.Book.find()
-            res.status(200).json(books)
+            res.status(200).json(res.docs)
         } catch (error) {
             res.status(500).json({ message: 'Server error ' + error})
         }
@@ -46,7 +45,37 @@ class Services {
                 res.status(400).json('Error in data object')
             }
         } catch (error) {
-            res.status(500).json('Server error')
+            res.status(500).json('Server error ' + error)
+        }
+    }
+
+    async createNewAuthor (req, res) {
+        try {
+            const data = req.body
+            const found = await models.Author.findOne({
+                firstName: data.firstName,
+                lastName: data.lastName
+            })
+
+            if (found) {
+                res.status(400).json({
+                    message: 'Author already exists',
+                    author: found
+                })
+
+                return
+            }
+            
+            const newAuthor = models.Author(data)
+            const saved = await newAuthor.save()
+
+            if (saved) {
+                res.status(201).json('Successfully added a new author')
+            } else {
+                res.status(400).json('Error in data object')
+            }
+        } catch (error) {
+            res.status(500).json('Server error ' + error)
         }
     }
 

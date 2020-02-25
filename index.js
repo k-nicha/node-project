@@ -39,22 +39,6 @@ db.once('open', () => {
     console.log('Successfully connected to the db.')
     server.listen(port, function () {
         console.log(`Server started on port ${port}, hello world!`);
-
-        // create a document from the book model
-        // const firstBook = new models.Book({
-        //     isbn: 111,
-        //     title: 'Crime and punishment',
-        //     author: 'Dostoyevsky',
-        //     year: '1866'
-        // })
-        // // try to save the newly created book in the database
-        // firstBook.save((err, book) => {
-        //     if (err) {
-        //         console.log('Data was not saved: '+ err)
-        //     } else {
-        //         console.log(book)
-        //     }
-        // })
     });
 })
 
