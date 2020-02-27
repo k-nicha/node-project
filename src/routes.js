@@ -23,6 +23,11 @@ function routes (server) {
     server.post('/add-author', services.createNewAuthor)
 
     server.delete('/remove-book/:isbn', services.removeBook)
+
+    // read file with FS and return it as response
+    server.get('/download-manual', services.getFile)
+
+    server.post('/upload-file', services.writeFile)
 }
 
 module.exports = routes

@@ -1,4 +1,5 @@
 const models = require('./models')
+const fs = require('fs')
 
 class Services {
     getInitialRoute (req, res) {
@@ -91,6 +92,31 @@ class Services {
         } catch (error) {
             res.status(500).json('Server error')
         }
+    }
+
+
+    getFile (req, res) {
+        const file = fs.createReadStream('./storage/sample.pdf')
+        const size = fs.statSync('./storage/sample.pdf').size
+
+        res.set({
+            'Content-Type': 'application/pdf',
+            'Content-Length': size
+        })
+
+        file.pipe(res)
+    }
+
+    writeFile (req, res) {
+        const stream = fs.createWriteStream(
+            './storage/new.txt', { flags: 'a' }
+            )
+        stream.once('open', () => {
+            stream.write(req.body.data)
+            stream.end()
+        })
+        
+        res.sattus(200).json('OK')
     }
 }
 
