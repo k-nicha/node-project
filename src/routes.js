@@ -16,6 +16,11 @@ function routes (server) {
         services.getAllDocs
     )
 
+    server.get(
+        '/get-dead-authors',
+        services.getDeadAuthors
+    )
+
     server.get('/get-books-by-author/:name', services.getBooksByAuthor)
 
     server.post('/add-book', services.createNewBook)

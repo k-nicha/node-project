@@ -14,6 +14,17 @@ class Services {
         }
     }
 
+    async getDeadAuthors (req, res) {
+        try {
+            const authors = await models.Author.find({
+                dateOfPassing: { $exists: true, $ne: null }
+            })
+            res.status(200).json(authors)
+        } catch (error) {
+            res.status(500).json({ message: 'Server error ' + error})
+        }
+    }
+
     async getBooksByAuthor (req, res) {
         try {
             const books = await models.Book.find({ author: req.params.name })
@@ -116,7 +127,7 @@ class Services {
             stream.end()
         })
         
-        res.sattus(200).json('OK')
+        res.status(200).json('OK')
     }
 }
 
