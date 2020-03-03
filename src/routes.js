@@ -35,6 +35,8 @@ function routes (server) {
     server.post('/upload-file', services.writeFile)
 
     server.post('/update-book', services.updateBook)
+
+    server.post('/update-author', services.updateAuthor)
 }
 
 module.exports = routes

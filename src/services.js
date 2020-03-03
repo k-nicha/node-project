@@ -1,4 +1,5 @@
 const models = require('./models')
+const ObjectId = require('mongodb').ObjectId
 const fs = require('fs')
 
 class Services {
@@ -148,6 +149,31 @@ class Services {
                 .json('Succesfully updated the book: ' + req.body.name)
             } else {
                 res.status(400).json('Book not found.')
+            }
+        } catch (err) {
+            res.status(500).json('Ooops someting went wrong. Please retry :)')
+        }
+        
+    }
+
+    async updateAuthor (req, res) {
+        try {
+            /* req.body = {
+                title: "asdasdasd",
+                year: "asdasdasd",
+                author: "asdasdasd",
+            } */
+            const updated = await models.Author.update(
+                { _id: ObjectId(req.params.id) },
+                { ...req.body }
+            )
+    
+            if (updated) {
+                res
+                .status(200)
+                .json('Succesfully updated the author: ' + req.body.name)
+            } else {
+                res.status(400).json('Author not found.')
             }
         } catch (err) {
             res.status(500).json('Ooops someting went wrong. Please retry :)')
