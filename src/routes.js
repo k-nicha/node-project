@@ -33,6 +33,8 @@ function routes (server) {
     server.get('/download-manual', services.getFile)
 
     server.post('/upload-file', services.writeFile)
+
+    server.post('/update-book', services.updateBook)
 }
 
 module.exports = routes

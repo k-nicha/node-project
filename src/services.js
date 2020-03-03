@@ -121,13 +121,38 @@ class Services {
     writeFile (req, res) {
         const stream = fs.createWriteStream(
             './storage/new.txt', { flags: 'a' }
-            )
+        )
         stream.once('open', () => {
             stream.write(req.body.data)
             stream.end()
         })
         
         res.status(200).json('OK')
+    }
+
+    async updateBook (req, res) {
+        try {
+            /* req.body = {
+                title: "asdasdasd",
+                year: "asdasdasd",
+                author: "asdasdasd",
+            } */
+            const updated = await models.Book.update(
+                { isbn: req.body.isbn },
+                { ...req.body }
+            )
+    
+            if (updated) {
+                res
+                .status(200)
+                .json('Succesfully updated the book: ' + req.body.name)
+            } else {
+                res.status(400).json('Book not found.')
+            }
+        } catch (err) {
+            res.status(500).json('Ooops someting went wrong. Please retry :)')
+        }
+        
     }
 }
 
