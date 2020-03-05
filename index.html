@@ -15,7 +15,8 @@
         <br />
         <input id="title" placeholder="Title" class="form-control" />
         <br />
-        <input id="author" placeholder="Author" class="form-control" />
+        <select id="author" class="form-control">
+        </select>
         <br />
         <input id="year" placeholder="Year" class="form-control" />
         <br />
@@ -87,6 +88,24 @@
             .then(response => response.json())
             .then(json => console.log(json))
         }
+
+        function generateDropdownOfAuthors () {
+            fetch('http://localhost:3001/get-all-authors')
+            .then(response => response.json())
+            .then(authors => {
+                for (let i = 0; i < authors.length; i++) {
+                    var author = document.createElement("OPTION")
+                    var textnode = document.createTextNode(
+                        `${authors[i].firstName} ${authors[i].lastName}`
+                    );
+                    author.appendChild(textnode);
+                    document.getElementById("author").appendChild(author);
+                }
+            })
+            .catch(err => alert(err))
+        }
+
+        generateDropdownOfAuthors()
     </script>
 </body>
 </html>
